@@ -1,0 +1,108 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, Arial, sans-serif;
+    background: #f7f7f7;
+    color: #111111;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* { box-sizing: border-box; }
+
+.header, .footer {
+    padding: 12px 20px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.container {
+    max-width: 960px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: #2b7a78;
+    color: white;
+    cursor: pointer;
+    margin: 4px;
+    font-weight: 600;
+}
+
+.page {
+    background: transparent;
+}
+
+.sudoku-board {
+    display: block;
+    margin: 16px auto;
+    width: min(720px, 90vw);
+    background: #222;
+    padding: 3px;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.sudoku-row {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+}
+
+.sudoku-cell {
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    user-select: none;
+    border: 1px solid rgba(0,0,0,0.12);
+    box-sizing: border-box;
+    font-size: clamp(14px, 2.4vw, 20px);
+    padding: 4px;
+}
+
+.sudoku-row > .sudoku-cell:nth-child(3n) {
+    border-right: 3px solid rgba(0,0,0,0.9);
+}
+
+.sudoku-board > .sudoku-row:nth-child(3n) > .sudoku-cell {
+    border-bottom: 3px solid rgba(0,0,0,0.9);
+}
+
+.sudoku-row > .sudoku-cell:first-child {
+    border-left: 3px solid rgba(0,0,0,0.9);
+}
+.sudoku-board > .sudoku-row:first-child > .sudoku-cell {
+    border-top: 3px solid rgba(0,0,0,0.9);
+}
+
+.sudoku-cell.fixed {
+    background: #eef6f6;
+    color: #0b3b3a;
+}
+
+.sudoku-cell.active {
+    outline: 2px solid #2b7a78;
+    z-index: 2;
+}
+
+.controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 420px) {
+    .btn { padding: 6px 10px; font-size: 14px; }
+    .sudoku-board { width: 96vw; }
+}
