@@ -1,68 +1,92 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { SettingsContext } from '../context/SettingsContext';
+import { generateSudoku, checkSolution } from '../utils/sudokuLogic';
+import { useTimer } from './useTimer';
 
-function generateSudoku() {
-    const solved = [
-        [5, 3, 4, 6, 7, 8, 9, 1, 2],
-        [6, 7, 2, 1, 9, 5, 3, 4, 8],
-        [1, 9, 8, 3, 4, 2, 5, 6, 7],
-        [8, 5, 9, 7, 6, 1, 4, 2, 3],
-        [4, 2, 6, 8, 5, 3, 7, 9, 1],
-        [7, 1, 3, 9, 2, 4, 8, 5, 6],
-        [9, 6, 1, 5, 3, 7, 2, 8, 4],
-        [2, 8, 7, 4, 1, 9, 6, 3, 5],
-        [3, 4, 5, 2, 8, 6, 1, 7, 9]
-    ];
+const MISTAKE_LIMIT = 3;
 
-    const puzzle = [
-        [5, 3, null, null, 7, null, null, null, null],
-        [6, null, null, 1, 9, 5, null, null, null],
-        [null, 9, 8, null, null, null, null, 6, null],
-        [8, null, null, null, 6, null, null, null, 3],
-        [4, null, null, 8, null, 3, null, null, 1],
-        [7, null, null, null, 2, null, null, null, 6],
-        [null, 6, null, null, null, null, 2, 8, null],
-        [null, null, null, 4, 1, 9, null, null, 5],
-        [null, null, null, null, 8, null, null, 7, 9]
-    ];
-
-    return { initial: puzzle, solved: solved };
+function createEmptyGrid() {
+    return Array(9).fill(null).map(() => Array(9).fill(null));
 }
 
 export function useSudokuGame() {
-    const [initialBoard, setInitialBoard] = useState(null);
-    const [board, setBoard] = useState(null);
+    const { difficulty } = useContext(SettingsContext);
+    const { time, stopTimer } = useTimer(true);
+
+    const [initialBoard, setInitialBoard] = useState(createEmptyGrid());
+    const [solvedBoard, setSolvedBoard] = useState(createEmptyGrid());
+    const [board, setBoard] = useState(createEmptyGrid());
+    const [errors, setErrors] = useState(createEmptyGrid());
+
     const [selectedCell, setSelectedCell] = useState(null);
+    const [mistakes, setMistakes] = useState(0);
+    const [isWin, setIsWin] = useState(false);
+    const [isLose, setIsLose] = useState(false);
 
     useEffect(() => {
-        const puzzle = generateSudoku();
-        setInitialBoard(puzzle.initial);
-        setBoard(puzzle.initial);
-    }, []);
+        const { initial, solved } = generateSudoku(difficulty);
+        setInitialBoard(initial);
+        setSolvedBoard(solved);
+        setBoard(initial);
+    }, [difficulty]);
 
     function selectCell(row, col) {
         setSelectedCell({ row, col });
     }
 
     function handleInput(value) {
-        if (!selectedCell) return;
+        if (!selectedCell || isWin || isLose) return;
 
         const { row, col } = selectedCell;
 
-        if (initialBoard && initialBoard[row][col] !== null) {
+        if (initialBoard[row][col] !== null) {
             return;
         }
 
-        if (board) {
-            const newBoard = board.map(r => [...r]);
-            newBoard[row][col] = value;
-            setBoard(newBoard);
+        const newBoard = board.map(r => [...r]);
+        newBoard[row][col] = value;
+        setBoard(newBoard);
+
+        const newErrors = errors.map(r => [...r]);
+        let isError = false;
+
+        if (value !== null && value !== solvedBoard[row][col]) {
+            isError = true;
+            newErrors[row][col] = true;
+            if (board[row][col] !== value) {
+                setMistakes(m => m + 1);
+            }
+        } else {
+            newErrors[row][col] = null;
+        }
+        setErrors(newErrors);
+
+        const currentMistakes = mistakes + (isError && board[row][col] !== value ? 1 : 0);
+
+        if (currentMistakes >= MISTAKE_LIMIT) {
+            stopTimer();
+            setIsLose(true);
+            setSelectedCell(null);
+            return;
+        }
+
+        if (checkSolution(newBoard, solvedBoard)) {
+            stopTimer();
+            setIsWin(true);
+            setSelectedCell(null);
         }
     }
 
     return {
         board,
         initialBoard,
+        solvedBoard,
+        errors,
         selectedCell,
+        mistakes,
+        time,
+        isWin,
+        isLose,
         selectCell,
         handleInput
     };
