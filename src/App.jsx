@@ -3,7 +3,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import StartPage from './pages/StartPage';
 import GamePage from './pages/GamePage';
-import ResultsPage from './pages/ResultsPage';
+import ResultsPage from './pages/ResultPage';
 
 function App() {
     const pageState = useState('start');
