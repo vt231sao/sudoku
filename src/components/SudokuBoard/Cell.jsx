@@ -10,9 +10,14 @@ function Cell(props) {
     if (props.isActive) {
         className += ' active';
     }
+    if (props.isError) {
+        className += ' error';
+    }
 
     function handleClick() {
-        props.onClick(props.row, props.col);
+        if (!props.isFixed) {
+            props.onClick(props.row, props.col);
+        }
     }
 
     return React.createElement('div', {
@@ -21,7 +26,7 @@ function Cell(props) {
         'data-row': props.row,
         'data-col': props.col,
         onClick: handleClick,
-        tabIndex: 0
+        tabIndex: props.isFixed ? -1 : 0
     }, display);
 }
 
