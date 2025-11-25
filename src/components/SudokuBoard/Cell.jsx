@@ -1,18 +1,13 @@
 import React from 'react';
+import styles from './SudokuBoard.module.css';
 
 function Cell(props) {
     const display = props.value == null ? '' : String(props.value);
 
-    let className = 'sudoku-cell';
-    if (props.isFixed) {
-        className += ' fixed';
-    }
-    if (props.isActive) {
-        className += ' active';
-    }
-    if (props.isError) {
-        className += ' error';
-    }
+    const classNames = [styles.cell];
+    if (props.isFixed) classNames.push(styles.fixed);
+    if (props.isActive) classNames.push(styles.active);
+    if (props.isError) classNames.push(styles.error);
 
     function handleClick() {
         if (!props.isFixed) {
@@ -21,7 +16,7 @@ function Cell(props) {
     }
 
     return React.createElement('div', {
-        className: className,
+        className: classNames.join(' '),
         role: 'gridcell',
         'data-row': props.row,
         'data-col': props.col,

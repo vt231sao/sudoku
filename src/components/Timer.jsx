@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Timer.module.css';
 
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
@@ -7,7 +8,7 @@ function formatTime(seconds) {
 }
 
 function Timer(props) {
-    return React.createElement('div', { className: 'timer' }, formatTime(props.time));
+    return React.createElement('div', { className: styles.timer }, formatTime(props.time));
 }
 
 export default Timer;

@@ -1,0 +1,53 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.title {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: #2b7a78;
+}
+
+.subtitle {
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 320px;
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.group label {
+    font-weight: 600;
+    color: #333;
+}
+
+.input, .select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.errorText {
+    color: #d90429;
+    font-size: 0.85rem;
+}

@@ -1,9 +1,10 @@
 import React from 'react';
+import styles from './Footer.module.css';
 
 function Footer() {
     return (
-        React.createElement('footer', { className: 'footer' },
-            React.createElement('small', null, 'Cудоку')
+        React.createElement('footer', { className: styles.footer },
+            React.createElement('small', null, 'Cудоку 2025')
         )
     );
 }
