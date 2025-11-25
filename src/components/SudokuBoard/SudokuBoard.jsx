@@ -1,5 +1,6 @@
 import React from 'react';
 import Cell from './Cell';
+import styles from './SudokuBoard.module.css';
 
 function makeIndexArray(n) {
     var arr = Array.from({ length: n }, function (_, i) { return i; });
@@ -11,7 +12,7 @@ function SudokuBoard(props) {
     const cols = makeIndexArray(9);
 
     function renderRow(r) {
-        return React.createElement('div', { key: r, className: 'sudoku-row' },
+        return React.createElement('div', { key: r, className: styles.row },
             cols.map(function (c) {
                 const value = props.board[r][c];
                 const isFixed = props.initialBoard[r][c] !== null;
@@ -32,7 +33,7 @@ function SudokuBoard(props) {
         );
     }
 
-    return React.createElement('div', { className: 'sudoku-board', role: 'grid', 'aria-label': 'Sudoku board' },
+    return React.createElement('div', { className: styles.board, role: 'grid', 'aria-label': 'Sudoku board' },
         rows.map(function (r) {
             return renderRow(r);
         })

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import styles from './Modal.module.css';
 
 function Modal(props) {
     const [modalRootNode] = useState(() => {
@@ -20,8 +21,8 @@ function Modal(props) {
         };
     }, [el, modalRootNode]);
 
-    const modalContent = React.createElement('div', { className: 'modal-overlay' },
-        React.createElement('div', { className: 'modal-content' },
+    const modalContent = React.createElement('div', { className: styles.overlay },
+        React.createElement('div', { className: styles.content },
             props.children
         )
     );
