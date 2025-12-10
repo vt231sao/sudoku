@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
-import { SettingsContext } from '../context/SettingsContext';
+import { useState, useEffect } from 'react';
+import { useSettingsStore } from '../store/useSettingsStore';
 import { generateSudoku, checkSolution } from '../utils/sudokuLogic';
 import { useTimer } from './useTimer';
 
@@ -10,7 +10,7 @@ function createEmptyGrid() {
 }
 
 export function useSudokuGame() {
-    const { difficulty } = useContext(SettingsContext);
+    const difficulty = useSettingsStore((state) => state.difficulty);
     const { time, stopTimer } = useTimer(true);
 
     const [initialBoard, setInitialBoard] = useState(createEmptyGrid());

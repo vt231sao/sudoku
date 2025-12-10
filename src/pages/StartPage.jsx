@@ -1,29 +1,33 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
-import { SettingsContext } from '../context/SettingsContext';
+import { useSettingsStore } from '../store/useSettingsStore';
 import styles from './StartPage.module.css';
 
 function StartPage() {
-    const { difficulty, setDifficulty } = useContext(SettingsContext);
     const navigate = useNavigate();
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    const username = useSettingsStore((state) => state.username);
+    const difficulty = useSettingsStore((state) => state.difficulty);
+    const setUsername = useSettingsStore((state) => state.setUsername);
+    const setDifficulty = useSettingsStore((state) => state.setDifficulty);
+
+    const { register, handleSubmit } = useForm({
         defaultValues: {
-            difficulty: difficulty,
-            username: ''
+            username: username,
+            difficulty: difficulty
         }
     });
 
-    const watchDifficulty = watch('difficulty');
-
-    React.useEffect(() => {
-        setDifficulty(watchDifficulty);
-    }, [watchDifficulty, setDifficulty]);
-
     function onSubmit(data) {
-        navigate(`/game/${data.username}`);
+        setUsername(data.username);
+        setDifficulty(data.difficulty);
+        navigate('/game');
+    }
+
+    function handleLeaderboard() {
+        navigate('/leaderboard');
     }
 
     return (
@@ -38,8 +42,7 @@ function StartPage() {
                         type: 'text',
                         className: styles.input,
                         ...register('username', { required: true, minLength: 2 })
-                    }),
-                    errors.username && React.createElement('span', { className: styles.errorText }, 'Введіть ім\'я (мін. 2 літери)')
+                    })
                 ),
                 React.createElement('div', { className: styles.group },
                     React.createElement('label', null, 'Складність:'),
@@ -52,7 +55,8 @@ function StartPage() {
                         React.createElement('option', { value: 'hard' }, 'Складний')
                     )
                 ),
-                React.createElement(Button, { type: 'submit' }, 'Почати гру')
+                React.createElement(Button, { type: 'submit' }, 'Почати гру'),
+                React.createElement(Button, { type: 'button', onClick: handleLeaderboard }, 'Таблиця результатів')
             )
         )
     );

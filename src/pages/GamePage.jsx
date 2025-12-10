@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SudokuBoard from '../components/SudokuBoard/SudokuBoard';
 import Button from '../components/Button';
 import Timer from '../components/Timer';
 import Modal from '../components/Modal';
 import { useSudokuGame } from '../hooks/useSudokuGame';
+import { useSettingsStore } from '../store/useSettingsStore';
+import { useLeaderboardStore } from '../store/useLeaderboardStore';
 import styles from './GamePage.module.css';
 
 function GamePage() {
     const navigate = useNavigate();
-    const { userId } = useParams();
+    const username = useSettingsStore((state) => state.username);
+    const difficulty = useSettingsStore((state) => state.difficulty);
+    const addScore = useLeaderboardStore((state) => state.addScore);
 
     const {
         board,
@@ -23,6 +27,18 @@ function GamePage() {
         selectCell,
         handleInput
     } = useSudokuGame();
+
+    useEffect(() => {
+        if (isWin) {
+            const finalScore = Math.max(0, 10000 - (time * 10) - (mistakes * 500));
+            addScore({
+                name: username || 'Анонім',
+                difficulty: difficulty,
+                time: time,
+                score: finalScore
+            });
+        }
+    }, [isWin]);
 
     useEffect(() => {
         function handleKeyDown(event) {
@@ -50,7 +66,7 @@ function GamePage() {
 
     const winModalContent = React.createElement('div', null,
         React.createElement('h2', null, 'Перемога!'),
-        React.createElement('p', null, `Гравець: ${userId}`),
+        React.createElement('p', null, `Гравець: ${username}`),
         React.createElement('p', null, 'Час: ', React.createElement(Timer, { time: time })),
         React.createElement('div', { className: styles.modalActions },
             React.createElement(Button, { onClick: handleRestart }, 'Грати знову'),
@@ -70,7 +86,7 @@ function GamePage() {
     return (
         React.createElement('section', { className: styles.page },
             React.createElement('div', { className: styles.header },
-                React.createElement('h3', null, `Гравець: ${userId}`),
+                React.createElement('h3', null, `Гравець: ${username}`),
                 React.createElement(Button, { onClick: handleBack }, 'Вихід')
             ),
             React.createElement('div', { className: styles.infoBar },
