@@ -3,12 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './styles/globals.css';
-import { SettingsProvider } from './context/SettingsContext';
 
 createRoot(document.getElementById('root')).render(
     React.createElement(BrowserRouter, null,
-        React.createElement(SettingsProvider, null,
-            React.createElement(App, null)
-        )
+        React.createElement(App, null)
     )
 );
