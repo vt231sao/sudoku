@@ -1,18 +1,55 @@
-# React + Vite
+# React Sudoku Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Це веб-додаток для гри в Судоку, створений як проєкт з дисципліни "Компонентно-орієнтоване програмування". Проєкт демонструє використання сучасних підходів розробки на React, управління станом та створення інтерактивних UI-компонентів.
 
-Currently, two official plugins are available:
+## Конфігурації та Технології
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Фреймворк:** React 18 + Vite
+- **State Management:** Zustand
+- **Стилізація:** CSS Modules
+- **Документація коду:** JSDoc
+- **UI Документація:** Storybook
+- **Валідація та GDPR:** react-cookie-consent
 
-## React Compiler
+---
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Базові команди для запуску
 
-Note: This will impact Vite dev & build performances.
+Для того, щоб розгорнути проєкт локально, виконайте наступні кроки:
 
-## Expanding the ESLint configuration
+1. **Встановлення залежностей:**
+   ```bash
+   npm install
+2. **Запуск локального сервера (режим розробки):**
+   ```bash
+   npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Після цього додаток буде доступний за адресою http://localhost:5173
+
+3. **Запуск Storybook (документація компонентів):**
+   ```bash
+   npm run storybook
+4. **Генерація JSDoc документації:**
+   ```bash
+   npm run docs
+5. **Збірка проєкту для продакшену:**
+   ```bash
+   npm run build
+
+---
+
+
+## Ліцензія
+
+Цей проєкт розповсюджується за відкритою ліцензією MIT. Ви можете вільно використовувати, змінювати та розповсюджувати цей код за умови збереження авторства.
+
+* Детальний текст ліцензії знаходиться у файлі `LICENSE`.
+* Звіт про ліцензії всіх використаних npm-пакетів (License Report) знаходиться у файлі `license-report.txt`.
+
+---
+
+## Авторство
+
+**Розробник:** Сорока Андрій
+**Студент групи:** ВТ-23-1
+**Заклад:** Житомирська політехніка (2025 рік)
