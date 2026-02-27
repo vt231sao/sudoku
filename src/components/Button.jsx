@@ -5,7 +5,8 @@ function Button(props) {
     return React.createElement('button', {
         className: styles.btn,
         onClick: props.onClick,
-        type: props.type || 'button'
+        type: props.type || 'button',
+        disabled: props.disabled
     }, props.children);
 }
 
