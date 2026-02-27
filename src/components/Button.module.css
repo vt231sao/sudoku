@@ -13,3 +13,12 @@
 .btn:hover {
     background: #349491;
 }
+.btn:hover:not(:disabled) {
+    background: #349491;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #6b7280;
+}
